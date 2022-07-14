@@ -10,5 +10,6 @@ namespace AKeyBookWeb.Data
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Movies> Movies { get; set; }
     }
 }

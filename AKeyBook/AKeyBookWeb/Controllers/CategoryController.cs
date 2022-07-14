@@ -1,6 +1,7 @@
 ﻿using AKeyBookWeb.Data;
 using AKeyBookWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 
 namespace AKeyBookWeb.Controllers
 {
@@ -21,21 +22,23 @@ namespace AKeyBookWeb.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var cat = new FullCategory();
+            cat.Movies = _dbContext.Movies.ToList();
+            return View(cat);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Category category)
+        public IActionResult CreatePOST(FullCategory cat)
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Add(category);
+                _dbContext.Categories.Add(cat.Category);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            return View(cat);
         }
 
         public IActionResult Edit(int? id)

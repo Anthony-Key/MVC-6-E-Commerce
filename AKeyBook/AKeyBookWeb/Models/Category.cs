@@ -12,5 +12,6 @@ namespace AKeyBookWeb.Models
         [DisplayName("Display Order")]
         public int DisplayOrder { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+        public List<Movies> Movies = new List<Movies>(); 
     }
 }

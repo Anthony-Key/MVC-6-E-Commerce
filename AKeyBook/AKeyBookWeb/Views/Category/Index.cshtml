@@ -37,7 +37,10 @@
 		{
 			<tr>
 				<td width="50%">
-					@category.Name
+					<a asp-controller="Movies" asp-action="Index" asp-route-id="@category.Id" class="btn btn-primary mx-2">
+						@category.Name
+						@category.Id
+					</a>
 				</td>
 				<td width="30%">
 					@category.DisplayOrder

@@ -30,9 +30,14 @@ namespace AKeyBookWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
         {
-            _dbContext.Categories.Add(category);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _dbContext.Categories.Add(category);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(category);
         }
     }
 }

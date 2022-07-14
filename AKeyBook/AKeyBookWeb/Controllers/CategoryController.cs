@@ -22,18 +22,16 @@ namespace AKeyBookWeb.Controllers
 
         public IActionResult Create()
         {
-            var cat = new FullCategory();
-            cat.Movies = _dbContext.Movies.ToList();
-            return View(cat);
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreatePOST(FullCategory cat)
+        public IActionResult CreatePOST(Category cat)
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Categories.Add(cat.Category);
+                _dbContext.Categories.Add(cat);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }

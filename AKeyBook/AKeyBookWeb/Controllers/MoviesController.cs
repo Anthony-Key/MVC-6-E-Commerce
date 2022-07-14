@@ -13,19 +13,23 @@ namespace AKeyBookWeb.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public IActionResult Index(int catId)
+        public IActionResult Create()
         {
-            var movies = new List<Movies>(_dbContext.Movies.ToList());
-            movies.ForEach(movie =>
-            {
-                if(movie.Id == catId)
-                {
-                    movies.Add(movie);
-                } 
-            });
+            return View();
+        }
 
-;            return View(movies);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePOST(Movie movie)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Movies.Add(movie);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Create");
+            }
+
+            return RedirectToAction("Create");
         }
     }
 }

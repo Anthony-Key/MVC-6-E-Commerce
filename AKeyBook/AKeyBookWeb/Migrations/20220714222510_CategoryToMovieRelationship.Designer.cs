@@ -4,6 +4,7 @@ using AKeyBookWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AKeyBookWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220714222510_CategoryToMovieRelationship")]
+    partial class CategoryToMovieRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace AKeyBookWeb.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AKeyBookWeb.Models.Movie", b =>
+            modelBuilder.Entity("AKeyBookWeb.Models.Movies", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -64,39 +66,26 @@ namespace AKeyBookWeb.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int?>("movieId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("movieId");
 
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("CategoryMovie", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "MoviesId");
-
-                    b.HasIndex("MoviesId");
-
-                    b.ToTable("CategoryMovie");
-                });
-
-            modelBuilder.Entity("CategoryMovie", b =>
+            modelBuilder.Entity("AKeyBookWeb.Models.Movies", b =>
                 {
                     b.HasOne("AKeyBookWeb.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("movies")
+                        .HasForeignKey("movieId");
+                });
 
-                    b.HasOne("AKeyBookWeb.Models.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            modelBuilder.Entity("AKeyBookWeb.Models.Category", b =>
+                {
+                    b.Navigation("movies");
                 });
 #pragma warning restore 612, 618
         }

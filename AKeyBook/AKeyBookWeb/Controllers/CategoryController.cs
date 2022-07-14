@@ -19,13 +19,11 @@ namespace AKeyBookWeb.Controllers
             return View(categories);
         }
 
-        //Get
         public IActionResult Create()
         {
             return View();
         }
 
-        //Post
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category category)
@@ -38,6 +36,70 @@ namespace AKeyBookWeb.Controllers
             }
 
             return View(category);
+        }
+
+        public IActionResult Edit(int? id)
+        {
+            if(id == null || id==0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = _dbContext.Categories.Find(id);
+
+            if(categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Categories.Update(category);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(category);
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = _dbContext.Categories.Find(id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePOST(int? id)
+        {
+            var category = _dbContext.Categories.Find(id);
+
+            if(category == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Categories.Remove(category);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace AKeyBookWeb.Models
         public string? MovieName { get; set; }
         public string? MovieImgUrl { get; set; }
         [Required]
-        public int Rating { get; set; }
+        public string Rating { get; set; }
         public virtual List<Category>? Categories { get; set; }
     }
 }

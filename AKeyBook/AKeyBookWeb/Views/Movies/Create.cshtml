@@ -4,18 +4,20 @@
 @using (@Html.BeginForm("CreatePOST", "Movies", FormMethod.Post))
 {
     <input type="hidden" id="checkedCheckBoxes" name="checkedHobbies" />
+
     for (int i = 0; i <Model.categories.Count(); i++)
     {
         @Html.HiddenFor(m => m.categories[i].Id)
         @Html.HiddenFor(m => m.categories[i].Movies)
         @Html.HiddenFor(m => m.categories[i].Rating)
+        @Html.HiddenFor(m => m.categories[i].Name)
         @Html.HiddenFor(m => m.categories[i].CreatedDateTime)
         @Html.CheckBoxFor(m => m.categories[i].selected)
         @Html.DisplayFor(m => m.categories[i].Name)
     }
-                <input type="submit" class="btn btn-primary" value="Submit" />
-}
 
+    <input type="submit" class="btn btn-primary" value="Submit" />
+}
 
 @section Scripts {
 	@{

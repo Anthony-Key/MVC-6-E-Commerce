@@ -16,10 +16,9 @@ namespace AKeyBookWeb.Controllers
 
         public IActionResult Create()
         {
-            MovieCategory category = new MovieCategory();
-            category.categories = _dbContext.Categories.ToList();
-            category.movie = new Movie();
-            return View(category);
+            var movCat = new MovieCategory();
+            movCat.categories = _dbContext.Categories.ToList();
+            return View(movCat);
         }
 
         [HttpPost]

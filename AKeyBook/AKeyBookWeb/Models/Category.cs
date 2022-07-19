@@ -11,7 +11,8 @@ namespace AKeyBookWeb.Models
         [Required]
         public string? Name { get; set; }
         [DisplayName("Display Order")]
-        public int DisplayOrder { get; set; }
+        public int Rating { get; set; }
+        public bool selected { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
         public virtual List<Movie>? Movies { get; set; }
     }

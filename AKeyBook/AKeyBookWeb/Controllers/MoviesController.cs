@@ -8,6 +8,8 @@ namespace AKeyBookWeb.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
+        private Movie createdMovie;
+        private List<Category> attachedCategories = new List<Category>();
 
         public MoviesController(ApplicationDbContext dbContext)
         {
@@ -15,6 +17,12 @@ namespace AKeyBookWeb.Controllers
         }
 
         public IActionResult Create()
+        {
+            var movie = new Movie();
+            return View(movie);
+        }
+
+        public IActionResult Select()
         {
             var movCat = new MovieCategory();
             movCat.movie = new Movie();
@@ -24,15 +32,17 @@ namespace AKeyBookWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public IActionResult CreateBase(Movie movie)
+        {
+            createdMovie = movie;
+            return RedirectToAction("Select");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePOST(MovieCategory movie)
         {
-            /*if (ModelState.IsValid)
-            {
-                _dbContext.Movies.Add(movie);
-                _dbContext.SaveChanges();
-                return RedirectToAction("Create");
-            }*/
-
+            attachedCategories = movie.categories;
             return RedirectToAction("Create");
         }
     }
